@@ -2,7 +2,7 @@
 
 SQL analysis of Northwind's commercial performance.
 
-# Objective
+## Objective
 
 Analyze sales performance and identify the products, categories, customers, and employees that have the greatest impact on revenue.
 
