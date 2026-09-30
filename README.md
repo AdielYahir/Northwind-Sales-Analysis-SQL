@@ -1,38 +1,41 @@
 # Northwind Sales Analysis
 
-SQL analysis of Northwind's commercial performance.
+SQL analysis of sales data from the Northwind database.
 
-## Objective
+## About the project
 
-Analyze sales performance and identify the products, categories, customers, and employees that have the greatest impact on revenue.
+This project explores Northwind's sales data using SQL. 
+The analysis focuses on sales trends, product categories, top-selling products, employee performance, and shipping locations.
 
-## Business Questions
+## Questions
 
-1. How did sales evolve over time?
-2. Which product categories generate the most revenue?
-3. Which products generate the most revenue?
-4. Which customers generate the most revenue?
-5. Which employees generate the most revenue?
+- How did sales change over the years?
+- How did Beverages and Confections perform during 1997?
+- Which products sold the most units?
+- How much revenue did each employee generate?
+- Which shipping cities generated the most revenue?
 
 ## Tools
 
 - SQL
 - SQLite
 
-## Key Findings
+## Key findings
 
-- 1997 was the highest-revenue year.
-- Beverages generated the highest revenue among categories.
-- Côte de Blaye was the highest-revenue product.
-- QUICK-Stop was the highest-value customer.
-- Margaret Peacock generated the highest revenue among employees.
+- 1997 had the highest total sales.
+- Beverages and Confections showed different monthly sales patterns during 1997.
+- Côte de Blaye was among the top products by sales volume.
+- Employee sales performance varied considerably.
+- Some shipping cities generated significantly more revenue than others.
 
-## SQL Concepts
+## SQL Skills Demonstrated
 
-- SELECT
-- JOIN
-- GROUP BY
-- ORDER BY
-- Aggregate Functions
-- Date Functions
-- Filtering
+- SELECT and filtering
+- INNER JOIN
+- GROUP BY and ORDER BY
+- Aggregate functions (SUM, COUNT)
+- CASE statements
+- Date functions
+- Calculated fields
+- ROUND
+- LIMIT
