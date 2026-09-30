@@ -1,45 +1,20 @@
--- ============================================================
--- NORTHWIND SALES ANALYSIS
--- SQL Business Analysis
--- ============================================================
+-- Northwind Sales Analysis
 
--- Business Objective:
--- Analyze Northwind's sales performance to identify
--- temporal trends, category performance, top-selling products,
--- employee performance, and the cities generating the most revenue.
-
-
--- ============================================================
--- 01. SALES PERFORMANCE OVER TIME
--- ============================================================
-
--- Business Question:
+-- 1. Sales performance over time
 -- How did total sales evolve across the years?
 
--- Original Exercise #35:
--- Calcular las ventas totales, clasificadas por año.
-
 SELECT
-    strftime('%Y', OrderDate) AS Año,
-    SUM(UnitPrice * Quantity * (1 - Discount)) AS Ventas_totales
+    strftime('%Y', OrderDate) as Año,
+    SUM(UnitPrice * Quantity * (1 - Discount)) as Ventas_totales
 FROM Orders o
-JOIN "Order Details" od
-    ON od.OrderID = o.OrderID
+JOIN "Order Details" od ON od.OrderID = o.OrderID
 GROUP BY strftime('%Y', OrderDate)
 ORDER BY Año;
 
 
--- ============================================================
--- 02. CATEGORY PERFORMANCE
--- ============================================================
-
--- Business Question:
+-- 2. Category performance
 -- How did the sales of Beverages and Confections
 -- compare month by month during 1997?
-
--- Original Exercise #39:
--- Mostrar la facturación mensual del año 1997,
--- comparando las categorías 'Beverages' y 'Confections'.
 
 SELECT
     strftime('%m', i.OrderDate) AS Mes,
@@ -50,8 +25,7 @@ SELECT
                 THEN i.ExtendedPrice
                 ELSE 0
             END
-        ),
-        2
+        ), 2
     ) AS Facturacion_Bebidas,
     ROUND(
         SUM(
@@ -60,87 +34,53 @@ SELECT
                 THEN i.ExtendedPrice
                 ELSE 0
             END
-        ),
-        2
+        ), 2
     ) AS Facturacion_Confections
 FROM Invoices i
-JOIN Products p
-    ON p.ProductID = i.ProductID
-JOIN Categories c
-    ON p.CategoryID = c.CategoryID
-WHERE
-    i.OrderDate >= '1997-01-01'
-    AND i.OrderDate < '1998-01-01'
-    AND c.CategoryName IN ('Beverages', 'Confections')
+JOIN Products p ON p.ProductID = i.ProductID
+JOIN Categories c ON p.CategoryID = c.CategoryID
+WHERE i.OrderDate >= '1997-01-01'
+  AND i.OrderDate < '1998-01-01'
+  AND c.CategoryName IN ('Beverages', 'Confections')
 GROUP BY strftime('%m', i.OrderDate)
 ORDER BY Mes;
 
 
--- ============================================================
--- 03. TOP 5 PRODUCTS BY UNITS SOLD
--- ============================================================
-
--- Business Question:
+-- 3. Top 5 products by units sold
 -- Which products sold the highest number of units?
-
--- Original Exercise #28:
--- Presentar el top 5 de productos por unidades vendidas.
 
 SELECT
     p.ProductName,
-    SUM(Quantity) AS Unidades_Vendidas
+    sum(Quantity) as Unidades_Vendidas
 FROM Products p
-JOIN "Order Details" od
-    ON od.ProductID = p.ProductID
+JOIN "Order Details" od ON od.ProductID = p.ProductID
 GROUP BY p.ProductName
 ORDER BY Unidades_Vendidas DESC
 LIMIT 5;
 
 
--- ============================================================
--- 04. EMPLOYEE SALES PERFORMANCE
--- ============================================================
-
--- Business Question:
--- Which employees generated the highest total revenue?
-
--- Original Exercise #26:
--- Presentar una lista de los IDs de empleados,
--- sus nombres completos, y la suma total de facturación
--- que ha logrado cada uno.
+-- 4. Employee sales performance
+-- How much revenue did each employee generate?
 
 SELECT
     e.EmployeeID,
     e.FirstName || ' ' || e.LastName AS Employee_Name,
-    SUM(i.ExtendedPrice) AS Facturación_Total
+    sum(i.ExtendedPrice) as Facturación_Total
 FROM Employees e
-JOIN Orders o
-    ON e.EmployeeID = o.EmployeeID
-JOIN Invoices i
-    ON i.OrderID = o.OrderID
-GROUP BY
-    e.EmployeeID,
-    e.FirstName,
-    e.LastName
+JOIN Orders o ON e.EmployeeID = o.EmployeeID
+JOIN Invoices i ON i.OrderID = o.OrderID
+GROUP BY e.EmployeeID, e.FirstName, e.LastName
 ORDER BY e.EmployeeID ASC;
 
 
--- ============================================================
--- 05. TOP 5 SHIPPING CITIES BY REVENUE
--- ============================================================
-
--- Business Question:
+-- 5. Top 5 shipping cities by revenue
 -- Which shipping cities generated the highest revenue?
-
--- Original Exercise #27:
--- Presentar el top 5 de las ciudades de envío por facturación.
 
 SELECT
     o.ShipCity,
-    SUM(i.ExtendedPrice) AS Facturacion_Total
+    sum(i.ExtendedPrice) As Facturacion_Total
 FROM Orders o
-JOIN Invoices i
-    ON i.OrderID = o.OrderID
+JOIN Invoices i on i.OrderID = o.OrderID
 GROUP BY o.ShipCity
-ORDER BY Facturacion_Total DESC
+ORDER BY Facturacion_Total desc
 LIMIT 5;
